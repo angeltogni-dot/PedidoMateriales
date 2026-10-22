@@ -17,7 +17,6 @@ def main(page: ft.Page):
     page.padding = 0
     page.bgcolor = ft.colors.WHITE
 
-    # Variables de estado corregidas (sin ft.Ref para evitar cierres en Android)
     es_autorizador = True
     usuario_actual = "Ángel"
     carrito = {}
@@ -102,6 +101,8 @@ def main(page: ft.Page):
         page.update()
 
     def render_materiales(filtro=""):
+        if filtro is None:
+            filtro = ""
         lista_materiales_view.controls.clear()
         for mat in MATERIALES_BASE:
             if filtro.lower() in mat.lower():
@@ -212,7 +213,6 @@ def main(page: ft.Page):
         nonlocal tab_actual
         tab_actual = tab_nombre
         
-        btn_tab_mat.style = ft.ButtonStyle(side=None if tab_nombre == "materiales" else ft.BorderSide(1, ft.colors.GREY_400))
         container_materiales.visible = (tab_nombre == "materiales")
         container_pedido.visible = (tab_nombre == "pedido")
         container_aprobaciones.visible = (tab_nombre == "aprobaciones")
@@ -228,7 +228,7 @@ def main(page: ft.Page):
     btn_tab_ped.on_click = lambda e: cambiar_tab("pedido")
     btn_tab_aprob.on_click = lambda e: cambiar_tab("aprobaciones")
 
-    txt_busqueda.on_change = lambda e: render_materiales(txt_busqueda.value)
+    txt_busqueda.on_change = lambda e: render_materiales(e.control.value or "")
 
     def enviar_pedido_click(e):
         if not carrito:
@@ -311,4 +311,5 @@ def main(page: ft.Page):
     actualizar_vistas = lambda: render_materiales()
     actualizar_vistas()
 
-ft.app(target=main)
+if __name__ == "__main__":
+    ft.app(target=main)
