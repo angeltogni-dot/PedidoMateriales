@@ -23,8 +23,10 @@ jobs:
           pip install flet
 
       - name: Construir APK con Flet
+        env:
+          FLET_FORCE_UPDATE: "true"
         run: |
-          flet build apk --yes
+          yes | flet build apk
 
       - name: Subir APK como Artefacto
         uses: actions/upload-artifact@v4
