@@ -24,7 +24,7 @@ jobs:
 
       - name: Construir APK con Flet
         run: |
-          flet build apk
+          flet build apk --yes
 
       - name: Subir APK como Artefacto
         uses: actions/upload-artifact@v4
